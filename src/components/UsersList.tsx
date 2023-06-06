@@ -1,18 +1,32 @@
-import React from 'react'
-import { User } from '../types'
+import { useState } from 'react'
+import { User } from '../types.d'
 
 interface Prop {
   users: User[]
+  assignOrderByCOuntry: () => void,
+  orderByCountry: boolean,
+  deleteUser: (id: Uint8Array) => void,
+  resetUsers: () => void
 }
 
-const UsersList = ({ users }: Prop) => {
-  return (
-    <>
-      <header className='header-userlist'>
+const UsersList = ({ users, orderByCountry, assignOrderByCOuntry, deleteUser, resetUsers }: Prop) => {
+  const [colors, setColors] = useState(false)
 
+  const toggleColors = () => {
+    setColors(!colors)
+  }
+
+
+
+  return (
+    <div className=''>
+      <header className='header-userlist'>
+        <button onClick={toggleColors}>Colorear files</button>
+        <button onClick={() => assignOrderByCOuntry()}>{orderByCountry ? "Dejar de ordenar" : "Ordenar por pais"} </button>
+        <button onClick={() => resetUsers()}>Reseatar usuarios </button>
       </header>
       <section>
-        <table className='table-userlist'>
+        <table className={colors ? 'table-striped' : ''}>
           <thead>
             <tr>
               <td>Foto</td>
@@ -22,7 +36,7 @@ const UsersList = ({ users }: Prop) => {
               <td>Acciones</td>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='bicolor'>
             {
               users.map((u) =>
                 <tr key={u.login.uuid}>
@@ -30,14 +44,14 @@ const UsersList = ({ users }: Prop) => {
                   <td>{u.name.first}</td>
                   <td>{u.name.last}</td>
                   <td>{u.location.country}</td>
-                  <td><button>Eliminar</button></td>
+                  <td><button onClick={() => deleteUser(u.login.uuid)}>Eliminar</button></td>
                 </tr>
               )
             }
           </tbody>
         </table>
       </section>
-    </>
+    </div>
   )
 }
 
