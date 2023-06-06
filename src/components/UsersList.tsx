@@ -5,18 +5,17 @@ interface Prop {
   users: User[]
   assignOrderByCOuntry: () => void,
   orderByCountry: boolean,
-  deleteUser: (id: Uint8Array) => void,
-  resetUsers: () => void
+  deleteUser: (id: string) => void,
+  resetUsers: () => void,
+  filterByCountry: (e: any) => void
 }
 
-const UsersList = ({ users, orderByCountry, assignOrderByCOuntry, deleteUser, resetUsers }: Prop) => {
+const UsersList = ({ users, orderByCountry, assignOrderByCOuntry, deleteUser, resetUsers, filterByCountry }: Prop) => {
   const [colors, setColors] = useState(false)
 
   const toggleColors = () => {
     setColors(!colors)
   }
-
-
 
   return (
     <div className=''>
@@ -24,6 +23,7 @@ const UsersList = ({ users, orderByCountry, assignOrderByCOuntry, deleteUser, re
         <button onClick={toggleColors}>Colorear files</button>
         <button onClick={() => assignOrderByCOuntry()}>{orderByCountry ? "Dejar de ordenar" : "Ordenar por pais"} </button>
         <button onClick={() => resetUsers()}>Reseatar usuarios </button>
+        <input onChange={filterByCountry} type="text" name="country" />
       </header>
       <section>
         <table className={colors ? 'table-striped' : ''}>

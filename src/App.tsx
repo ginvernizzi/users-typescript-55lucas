@@ -24,7 +24,12 @@ function App () {
     setOrderByCountry(!orderByCountry)
   }
 
-  const deleteUser = (id: Uint8Array) => {
+  const filterByCountry = (e) => {
+    console.log("filtro por pais")
+    setUsers([...users].filter((user) => { return user.location.country.toLowerCase().startsWith(e.target.value.toLowerCase()) }))
+  }
+
+  const deleteUser = (id: string) => {
     console.log("Delete user")
     setUsers(users.filter((u) => u.login.uuid !== id))
   }
@@ -64,7 +69,8 @@ function App () {
         assignOrderByCOuntry={assignOrderByCOuntry}
         orderByCountry={orderByCountry}
         deleteUser={deleteUser}
-        resetUsers={resetUsers} />
+        resetUsers={resetUsers}
+        filterByCountry={filterByCountry} />
     </>
   )
 }
