@@ -74,8 +74,14 @@ button:focus-visible {
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  margin: 50px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: #535bf2;
 }
 
 table {
@@ -89,7 +95,7 @@ table {
 }
 
 .table-striped>tbody tr:nth-child(even) {
-  background-color: blue;
+  /* background-color: blue; */
   color: yellow;
 }
 
