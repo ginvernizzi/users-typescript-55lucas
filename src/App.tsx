@@ -6,7 +6,7 @@ function App () {
   const [users, setUsers] = useState<Array<User>>([])
   const [orderByCountry, setOrderByCountry] = useState(false)
   const usersOriginal = useRef<User[]>([])
-
+  
   useEffect(() => {
     fetch('https://randomuser.me/api/?results=100')
       .then(res => res.json())
@@ -26,7 +26,7 @@ function App () {
 
   const filterByCountry = (e) => {
     console.log("filtro por pais")
-    setUsers([...users].filter((user) => { return user.location.country.toLowerCase().startsWith(e.target.value.toLowerCase()) }))
+    return ([...users].filter((user) => { return user.location.country.toLowerCase().startsWith(e.target.value.toLowerCase()) }))
   }
 
   const deleteUser = (id: string) => {
