@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import UsersList from "./components/UsersList"
 import { User } from "./types.d"
 
-function App () {
+function App() {
   const [users, setUsers] = useState<Array<User>>([])
   const [orderByCountry, setOrderByCountry] = useState(false) //ordenar por pais
   const [filter, setFilter] = useState('')
@@ -26,12 +26,7 @@ function App () {
   const filterByCountry = useMemo(() => {
     console.log("filtrar por pais, term", filter)
     if (filter !== '' && filter.length >= 1) {
-      const userWithFilter = [...users].filter((u) => u.location.country.toLowerCase().startsWith(filter.toLocaleLowerCase()))
-      if (userWithFilter === undefined) {
-        return users
-      } else {
-        return userWithFilter
-      }
+      return users.filter((u) => u.location.country.toLowerCase().startsWith(filter.toLocaleLowerCase()))
     } else {
       return users
     }
@@ -39,11 +34,13 @@ function App () {
 
   const orderUserByCountry = useMemo(() => {
     console.log("ordernar por pais")
-    if (orderByCountry) {
-      return filterByCountry.sort((a: User, b: User) => a.location.country.localeCompare(b.location.country))
-    } else {
+
+    if (!orderByCountry) {
       return filterByCountry
     }
+
+    return [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country))
+
   }, [orderByCountry, filterByCountry])
   ///////////////////////
 
