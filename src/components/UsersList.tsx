@@ -1,27 +1,29 @@
 import { useState } from 'react'
-import { User } from '../types.d'
+import { User, UserColumnsOrder } from '../types.d'
 
 interface Prop {
   users: User[]
-  assignOrderByCOuntry: () => void,
+  assignOrderByCountry: (columnOrder : UserColumnsOrder) => void,
   orderByCountry: boolean,
   deleteUser: (id: string) => void,
   resetUsers: () => void,
-  filterByCountry: (e: any) => void
+  filterByCountry: (e: any) => void,
+  orderBy: UserColumnsOrder
 }
 
-const UsersList = ({ users, orderByCountry, assignOrderByCOuntry, deleteUser, resetUsers, filterByCountry }: Prop) => {
+const UsersList = ({ users, assignOrderByCountry, deleteUser, resetUsers, filterByCountry, orderBy }: Prop) => {
   const [colors, setColors] = useState(false)
 
   const toggleColors = () => {
     setColors(!colors)
   }
+  
 
   return (
     <div className=''>
       <header className='header-userlist'>
         <button onClick={toggleColors}>Colorear files</button>
-        <button onClick={() => assignOrderByCOuntry()}>{orderByCountry ? "Dejar de ordenar" : "Ordenar por pais"} </button>
+        <button onClick={() => assignOrderByCountry(UserColumnsOrder.country)}>{orderBy === UserColumnsOrder.country ? "Dejar de ordenar" : "Ordenar por pais"} </button>
         <button onClick={() => resetUsers()}>Reseatar usuarios </button>
         <input onChange={filterByCountry} type="text" name="country" />
       </header>
@@ -30,9 +32,9 @@ const UsersList = ({ users, orderByCountry, assignOrderByCOuntry, deleteUser, re
           <thead>
             <tr>
               <td>Foto</td>
-              <td>Nombre</td>
-              <td>Apellido</td>
-              <td>Pais</td>
+              <td className='pointer' onClick={() => assignOrderByCountry(UserColumnsOrder.name)}>Nombre</td>
+              <td className='pointer' onClick={() => assignOrderByCountry(UserColumnsOrder.last)}>Apellido</td>
+              <td className='pointer' onClick={() => assignOrderByCountry(UserColumnsOrder.country)}>Pais</td>
               <td>Acciones</td>
             </tr>
           </thead>

@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
 import UsersList from "./components/UsersList"
-import { User } from "./types.d"
+import { User, UserColumnsOrder } from "./types.d"
 
 function App() {
   const [users, setUsers] = useState<Array<User>>([])
-  const [orderByCountry, setOrderByCountry] = useState(false) //ordenar por pais
+  const [orderBy, setOrderBy] = useState(UserColumnsOrder.none) //ordenar por pais
   const [filter, setFilter] = useState('')
   const usersOriginal = useRef<User[]>([])
 
   useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL)
+    fetch("https://randomuser.me/api/?results=100")
       .then(res => res.json())
       .then(data => {
         setUsers(data.results)
@@ -18,8 +18,10 @@ function App() {
       .catch(error => console.log("se pudrio todo", error))
   }, [])
 
-  const assignOrderByCOuntry = () => {
-    setOrderByCountry(!orderByCountry)
+  const assignOrderByCountry = (columnOrder: UserColumnsOrder) => {
+    setOrderBy(prev => {
+      return columnOrder
+    } )
   }
 
   ///////////////////////
@@ -32,20 +34,36 @@ function App() {
     }
   }, [filter, users])
 
-  const orderUserByCountry = useMemo(() => {
-    console.log("ordernar por pais")
+  const orderUserBy = useMemo(() => {
+    const columnActionOrder = {
+      country: () => [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)),
+      name: () => [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)),
+      last: () => [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last))
+    } 
 
-    if (!orderByCountry) {
-      return filterByCountry
-    }
+    if(orderBy === 'none') { return filterByCountry }
+    if(orderBy === 'name') { return [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)) }
+    if(orderBy === 'last') { return [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last)) }
+    if(orderBy === 'country') { return [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)) }
 
-    return [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country))
+    return filterByCountry
 
-  }, [orderByCountry, filterByCountry])
+  }, [orderBy, filterByCountry])
   ///////////////////////
 
+  // const orderByColumn(columnOrder: UserColumnsOrder) => {
 
-  const enableFilterByCountry = (e) => {
+  //   const columnActionOrder = {
+  //     country: () => [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)),
+  //     name: () => [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)),
+  //     last: () => [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last))
+  //   } 
+
+  //   return columnActionOrder.name
+  // }
+
+
+  const enableFilterByCountry = (e: { target: { value: SetStateAction<string> } }) => {
     console.log("seteo filter")
     setFilter(e.target.value)
   }
@@ -78,9 +96,9 @@ function App() {
   return (
     <>
       <h1>Prueba tecnica</h1>
-      <UsersList users={orderUserByCountry}
-        assignOrderByCOuntry={assignOrderByCOuntry}
-        orderByCountry={orderByCountry}
+      <UsersList users={orderUserBy}
+        assignOrderByCountry={assignOrderByCountry}
+        orderBy={orderBy}
         deleteUser={deleteUser}
         resetUsers={resetUsers}
         filterByCountry={enableFilterByCountry} />

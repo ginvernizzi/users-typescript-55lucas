@@ -89,6 +89,10 @@ table {
   text-align: center;
 }
 
+.pointer {
+  cursor: crosshair;
+}
+
 .table-striped>tbody tr:nth-child(odd) {
   background-color: yellow;
   color: blue;

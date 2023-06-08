@@ -1,9 +1,9 @@
 
 export enum UserColumnsOrder {
   none = 'none',
-  nombre = 'nombre',
-  apellido = 'apellido',
-  pais = 'pais'
+  name = 'name',
+  last = 'last',
+  country = 'country'
 }
 
 export interface User {
