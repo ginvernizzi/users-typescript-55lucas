@@ -19,9 +19,7 @@ function App () {
   }, [])
 
   const assignOrderByCountry = (columnOrder: UserColumnsOrder) => {
-    setOrderBy(prev => {
-      return columnOrder
-    })
+    setOrderBy(columnOrder)
   }
 
   ///////////////////////
@@ -35,13 +33,13 @@ function App () {
   }, [filter, users])
 
   const orderUserBy = useMemo(() => {
-    const columnActionOrder = {
-      country: () => [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)),
-      name: () => [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)),
-      last: () => [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last))
-    }
+    // const columnActionOrder = {
+    //   country: () => [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)),
+    //   name: () => [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)),
+    //   last: () => [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last))
+    // }
 
-    console.log({ orderBy })
+    // console.log({ orderBy })
 
     if (orderBy === 'none') { return [...filterByCountry] }
     if (orderBy === 'name') { return [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)) }
@@ -52,17 +50,6 @@ function App () {
 
   }, [orderBy, filterByCountry])
   ///////////////////////
-
-  // const orderByColumn(columnOrder: UserColumnsOrder) => {
-
-  //   const columnActionOrder = {
-  //     country: () => [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)),
-  //     name: () => [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)),
-  //     last: () => [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last))
-  //   } 
-
-  //   return columnActionOrder.name
-  // }
 
 
   const enableFilterByCountry = (e: { target: { value: SetStateAction<string> } }) => {
@@ -79,25 +66,9 @@ function App () {
     setUsers(usersOriginal.current)
   }
 
-  // const orderUsers = () => {
-  //   if (orderBy === UserColumnsOrder.none) {
-  //     return users
-  //   }
-  //   if (orderBy === UserColumnsOrder.nombre) {
-  //     return [...users].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first))
-  //   }
-  //   if (orderBy === UserColumnsOrder.apellido) {
-  //     return [...users].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last))
-  //   }
-  //   if (orderBy === UserColumnsOrder.pais) {
-  //     return [...users].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country))
-  //   }
-  //   return users
-  // }
-
   return (
     <>
-      <h1>Prueba tecnica</h1>
+      <h1>Prueba tecnica typescryipt</h1>
       <UsersList users={orderUserBy}
         assignOrderByCountry={assignOrderByCountry}
         orderBy={orderBy}

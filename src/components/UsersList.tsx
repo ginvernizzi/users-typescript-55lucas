@@ -4,7 +4,6 @@ import { User, UserColumnsOrder } from '../types.d'
 interface Prop {
   users: User[]
   assignOrderByCountry: (columnOrder: UserColumnsOrder) => void,
-  orderByCountry: boolean,
   deleteUser: (id: string) => void,
   resetUsers: () => void,
   filterByCountry: (e: any) => void,
