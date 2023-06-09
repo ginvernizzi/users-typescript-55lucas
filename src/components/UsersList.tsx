@@ -3,7 +3,7 @@ import { User, UserColumnsOrder } from '../types.d'
 
 interface Prop {
   users: User[]
-  assignOrderByCountry: (columnOrder : UserColumnsOrder) => void,
+  assignOrderByCountry: (columnOrder: UserColumnsOrder) => void,
   orderByCountry: boolean,
   deleteUser: (id: string) => void,
   resetUsers: () => void,
@@ -17,13 +17,13 @@ const UsersList = ({ users, assignOrderByCountry, deleteUser, resetUsers, filter
   const toggleColors = () => {
     setColors(!colors)
   }
-  
+
 
   return (
     <div className=''>
       <header className='header-userlist'>
         <button onClick={toggleColors}>Colorear files</button>
-        <button onClick={() => assignOrderByCountry(UserColumnsOrder.country)}>{orderBy === UserColumnsOrder.country ? "Dejar de ordenar" : "Ordenar por pais"} </button>
+        <button onClick={() => assignOrderByCountry(orderBy === UserColumnsOrder.country ? UserColumnsOrder.none : UserColumnsOrder.country)}>{orderBy === UserColumnsOrder.country ? "Dejar de ordenar" : "Ordenar por pais"} </button>
         <button onClick={() => resetUsers()}>Reseatar usuarios </button>
         <input onChange={filterByCountry} type="text" name="country" />
       </header>

@@ -2,7 +2,7 @@ import { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
 import UsersList from "./components/UsersList"
 import { User, UserColumnsOrder } from "./types.d"
 
-function App() {
+function App () {
   const [users, setUsers] = useState<Array<User>>([])
   const [orderBy, setOrderBy] = useState(UserColumnsOrder.none) //ordenar por pais
   const [filter, setFilter] = useState('')
@@ -21,7 +21,7 @@ function App() {
   const assignOrderByCountry = (columnOrder: UserColumnsOrder) => {
     setOrderBy(prev => {
       return columnOrder
-    } )
+    })
   }
 
   ///////////////////////
@@ -39,12 +39,14 @@ function App() {
       country: () => [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)),
       name: () => [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)),
       last: () => [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last))
-    } 
+    }
 
-    if(orderBy === 'none') { return filterByCountry }
-    if(orderBy === 'name') { return [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)) }
-    if(orderBy === 'last') { return [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last)) }
-    if(orderBy === 'country') { return [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)) }
+    console.log({ orderBy })
+
+    if (orderBy === 'none') { return [...filterByCountry] }
+    if (orderBy === 'name') { return [...filterByCountry].sort((a: User, b: User) => a.name.first.localeCompare(b.name.first)) }
+    if (orderBy === 'last') { return [...filterByCountry].sort((a: User, b: User) => a.name.last.localeCompare(b.name.last)) }
+    if (orderBy === 'country') { return [...filterByCountry].sort((a: User, b: User) => a.location.country.localeCompare(b.location.country)) }
 
     return filterByCountry
 
